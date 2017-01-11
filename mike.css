@@ -1,0 +1,30 @@
+/* Colors */
+/* Timeline */
+.timeline-mike-01,
+.timeline-mike-02,
+.timeline-mike-03,
+.timeline-mike-04 {
+  -moz-transition: all .5s ease-in-out;
+  -webkit-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out; }
+
+.timeline-mike-01 {
+  background: url("image/timeline/01.jpg");
+  background-position: center;
+  background-size: cover; }
+
+.timeline-mike-02 {
+  background: url("image/timeline/02.jpg");
+  background-position: center;
+  background-size: cover; }
+
+.timeline-mike-03 {
+  background: url("image/timeline/03.jpg");
+  background-position: center;
+  background-size: cover; }
+
+.timeline-mike-04 {
+  background: url("image/timeline/04.jpg");
+  background-position: center;
+  background-size: cover; }
+
