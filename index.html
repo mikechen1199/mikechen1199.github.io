@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>猜單字小遊戲</title>
+  <title>Vocabulary Game</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
@@ -10,33 +10,33 @@
 
   <!-- 開始畫面 -->
   <div id="start-screen" class="space-y-10">
-    <h1 class="text-4xl sm:text-6xl font-bold text-blue-700">Vocabulary Game</h1>
+    <h1 class="text-5xl sm:text-6xl font-bold text-blue-700">Vocabulary Game</h1>
     <button id="start-btn" onclick="startGame()" class="bg-blue-500 text-white px-12 py-8 text-4xl rounded-full shadow hover:bg-blue-600 transition">
       Game Start!
     </button>
   </div>
 
   <!-- 遊戲區 -->
-  <div id="game" class="hidden w-full max-w-xl mx-auto p-6 space-y-8">
+  <div id="game" class="hidden w-full max-w-5xl mx-auto p-6 space-y-8">
     <!-- 重聽按鈕 -->
-    <button onclick="replay()" class="text-5xl bg-yellow-300 rounded-full px-6 py-4 shadow hover:bg-yellow-400 transition">
-      🔊
+    <button onclick="replay()" class="text-6xl bg-yellow-300 rounded-full px-6 py-5 shadow hover:bg-yellow-400 transition">
+      🔊 Replay
     </button>
 
     <!-- 選項按鈕 -->
-    <div id="options" class="grid grid-cols-1 sm:grid-cols-3 gap-6 justify-center mt-6">
+    <div id="options" class="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-center mt-6">
       <!-- 選項會自動產生 -->
     </div>
 
-    <!-- 結果訊息 -->
+    <!-- 訊息顯示 -->
     <div id="message" class="text-5xl font-bold mt-6 min-h-[3rem]"></div>
   </div>
 
   <script>
     const words = [
-      "Apple", "Ant", "Bird", "Cat", "Dog", "Egg",
-      "Elephant", "Fish", "Net", "Nose", "Pig",
-      "Quilt", "Rabbit", "Sun", "Lion", "Monkey"
+      "apple", "ant", "bird", "cat", "dog", "egg",
+      "elephant", "fish", "net", "nose", "pig",
+      "quilt", "rabbit", "sun", "lion", "monkey"
     ];
 
     let currentWord = null;
@@ -73,25 +73,23 @@
       const container = document.getElementById('options');
       container.innerHTML = '';
       choices.forEach(choice => {
-        const imgName = choice.toLowerCase();
+        const imgName = choice;
 
         const btn = document.createElement('button');
         btn.innerHTML = `
           <img 
             src="image/${imgName}.png" 
+            onerror="this.onerror=null;this.src='image/${imgName}.jpg';" 
             alt="${choice}" 
-            class="w-32 h-32 sm:w-40 sm:h-40 object-contain mb-3"
+            class="w-40 h-40 sm:w-48 sm:h-48 object-contain mb-4"
           >
-          <div>${choice}</div>
+          <div class="text-4xl sm:text-5xl lowercase">${choice}</div>
         `;
         btn.className = `
-          text-3xl sm:text-4xl
           bg-white rounded-3xl
-          px-6 py-8
+          px-8 py-10
           shadow hover:bg-blue-200 transition
-          w-full min-h-[10rem]
-          break-words
-          whitespace-normal
+          w-full min-h-[12rem]
           flex flex-col justify-center items-center
         `;
 
