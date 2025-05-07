@@ -19,7 +19,7 @@
   <!-- 遊戲區 -->
   <div id="game" class="hidden w-full max-w-5xl mx-auto p-6 space-y-8">
     <!-- 重聽按鈕 -->
-    <button onclick="replay()" class="text-6xl bg-yellow-300 rounded-full px-6 py-5 shadow hover:bg-yellow-400 transition">
+    <button id="replay-btn" onclick="replay()" class="text-6xl bg-yellow-300 rounded-full px-6 py-5 shadow hover:bg-yellow-400 transition">
       🔊 Replay
     </button>
 
@@ -31,6 +31,10 @@
     <!-- 訊息顯示 -->
     <div id="message" class="text-5xl font-bold mt-6 min-h-[3rem]"></div>
   </div>
+
+  <!-- 音效 -->
+  <audio id="correct-sound" src="image/correct.mp3"></audio>
+  <audio id="wrong-sound" src="image/wrong.mp3"></audio>
 
   <script>
     const words = [
@@ -52,10 +56,19 @@
       return array.sort(() => Math.random() - 0.5);
     }
 
+    function playCorrectSound() {
+      document.getElementById('correct-sound')?.play();
+    }
+
+    function playWrongSound() {
+      document.getElementById('wrong-sound')?.play();
+    }
+
     function startGame() {
       document.getElementById('start-screen').classList.add('hidden');
       document.getElementById('game').classList.remove('hidden');
       document.getElementById('message').textContent = '';
+      document.getElementById('replay-btn').classList.remove('hidden');
       loadQuestion();
     }
 
@@ -73,13 +86,11 @@
       const container = document.getElementById('options');
       container.innerHTML = '';
       choices.forEach(choice => {
-        const imgName = choice;
-
         const btn = document.createElement('button');
         btn.innerHTML = `
           <img 
-            src="image/${imgName}.png" 
-            onerror="this.onerror=null;this.src='image/${imgName}.jpg';" 
+            src="image/${choice}.png" 
+            onerror="this.onerror=null;this.src='image/${choice}.jpg';" 
             alt="${choice}" 
             class="w-40 h-40 sm:w-48 sm:h-48 object-contain mb-4"
           >
@@ -94,25 +105,31 @@
         `;
 
         btn.onclick = () => {
+          // 隱藏選項與重聽
+          document.getElementById('options').classList.add('hidden');
+          document.getElementById('replay-btn').classList.add('hidden');
+
           if (choice === currentWord) {
+            playCorrectSound();
             document.getElementById('message').textContent = "🎉 通關！";
             document.getElementById('message').classList.remove("text-red-500");
             document.getElementById('message').classList.add("text-green-600");
-        
-            // 正確答題後：5 秒後回首頁
+
             setTimeout(() => {
               document.getElementById('game').classList.add('hidden');
               document.getElementById('start-screen').classList.remove('hidden');
             }, 5000);
-        
+
           } else {
+            playWrongSound();
             document.getElementById('message').textContent = "❌ 錯了！再接再厲";
             document.getElementById('message').classList.remove("text-green-600");
             document.getElementById('message').classList.add("text-red-500");
-        
-            // 答錯後：1.5 秒後自動進下一題
+
             setTimeout(() => {
               document.getElementById('message').textContent = '';
+              document.getElementById('options').classList.remove('hidden');
+              document.getElementById('replay-btn').classList.remove('hidden');
               loadQuestion();
             }, 1500);
           }
