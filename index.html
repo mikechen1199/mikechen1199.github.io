@@ -1,16 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-Hant">
 <head>
   <meta charset="UTF-8">
   <title>Vocabulary Game</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    ruby rt {
+      font-size: 0.5em;
+      color: #888;
+    }
+  </style>
 </head>
 <body class="bg-blue-50 text-center min-h-screen flex flex-col items-center justify-center text-2xl sm:text-3xl">
 
   <!-- 開始畫面 -->
-  <div id="start-screen" class="space-y-10">
+  <div id="start-screen" class="space-y-8">
     <h1 class="text-5xl sm:text-6xl font-bold text-blue-700">Vocabulary Game</h1>
+    <p class="text-xl sm:text-2xl text-gray-600">
+      <ruby>答<rt>ㄉㄚˊ</rt></ruby>
+      <ruby>對<rt>ㄉㄨㄟˋ</rt></ruby>
+      <ruby>兩<rt>ㄌㄧㄤˇ</rt></ruby>
+      <ruby>題<rt>ㄊㄧˊ</rt></ruby>
+      <ruby>就<rt>ㄐㄧㄡˋ</rt></ruby>
+      <ruby>能<rt>ㄋㄥˊ</rt></ruby>
+      <ruby>過<rt>ㄍㄨㄛˋ</rt></ruby>
+      <ruby>關<rt>ㄍㄨㄢ</rt></ruby>
+      <ruby>呦<rt>ㄧㄡ</rt></ruby>！
+    </p>
     <button id="start-btn" onclick="startGame()" class="bg-blue-500 text-white px-12 py-8 text-4xl rounded-full shadow hover:bg-blue-600 transition">
       Game Start!
     </button>
@@ -18,23 +35,19 @@
 
   <!-- 遊戲區 -->
   <div id="game" class="hidden w-full max-w-5xl mx-auto p-6 space-y-8">
-    <!-- 重聽按鈕 -->
     <button id="replay-btn" onclick="replay()" class="text-6xl bg-yellow-300 rounded-full px-6 py-5 shadow hover:bg-yellow-400 transition">
       🔊 Replay
     </button>
 
-    <!-- 選項按鈕 -->
-    <div id="options" class="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-center mt-6">
-      <!-- 選項會自動產生 -->
-    </div>
+    <div id="options" class="grid grid-cols-1 sm:grid-cols-3 gap-8 justify-center mt-6"></div>
 
-    <!-- 訊息顯示 -->
     <div id="message" class="text-5xl font-bold mt-6 min-h-[3rem]"></div>
   </div>
 
   <!-- 音效 -->
   <audio id="correct-sound" src="image/correct.mp3"></audio>
   <audio id="wrong-sound" src="image/wrong.mp3"></audio>
+  <audio id="clear-sound" src="image/clear.mp3"></audio>
 
   <script>
     const words = [
@@ -71,6 +84,13 @@
       audio.play();
     }
 
+    function playClearSound() {
+      const audio = document.getElementById('clear-sound');
+      audio.volume = 1.0;
+      audio.currentTime = 0;
+      audio.play();
+    }
+
     function stopSound(id) {
       const audio = document.getElementById(id);
       audio.pause();
@@ -100,7 +120,6 @@
       choices = shuffle(choices);
 
       const container = document.getElementById('options');
-      container.classList.remove('hidden');
       container.innerHTML = '';
       choices.forEach(choice => {
         const btn = document.createElement('button');
@@ -127,19 +146,24 @@
 
           if (choice === currentWord) {
             correctCount++;
-            playCorrectSound();
-            document.getElementById('message').textContent = correctCount >= 2 ? "🎉 Pass!" : "✅ Correct!";
-            document.getElementById('message').classList.remove("text-red-500");
-            document.getElementById('message').classList.add("text-green-600");
-
             if (correctCount >= 2) {
+              playClearSound();
+              document.getElementById('message').textContent = "🎉 Pass!";
+              document.getElementById('message').classList.remove("text-red-500");
+              document.getElementById('message').classList.add("text-green-600");
+
               setTimeout(() => {
-                stopSound('correct-sound');
+                stopSound('clear-sound');
                 document.getElementById('game').classList.add('hidden');
                 document.getElementById('start-screen').classList.remove('hidden');
                 correctCount = 0;
               }, 5000);
             } else {
+              playCorrectSound();
+              document.getElementById('message').textContent = "✅ Correct!";
+              document.getElementById('message').classList.remove("text-red-500");
+              document.getElementById('message').classList.add("text-green-600");
+
               setTimeout(() => {
                 stopSound('correct-sound');
                 document.getElementById('message').textContent = '';
@@ -148,7 +172,6 @@
                 loadQuestion();
               }, 1500);
             }
-
           } else {
             playWrongSound();
             document.getElementById('message').textContent = "❌ Wrong!";
@@ -170,9 +193,7 @@
     }
 
     function replay() {
-      if (currentWord) {
-        speak(currentWord);
-      }
+      if (currentWord) speak(currentWord);
     }
   </script>
 
