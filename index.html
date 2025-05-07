@@ -100,6 +100,7 @@
       choices = shuffle(choices);
 
       const container = document.getElementById('options');
+      container.classList.remove('hidden');
       container.innerHTML = '';
       choices.forEach(choice => {
         const btn = document.createElement('button');
