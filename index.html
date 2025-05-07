@@ -44,6 +44,7 @@
     ];
 
     let currentWord = null;
+    let correctCount = 0;
 
     function speak(text) {
       const utter = new SpeechSynthesisUtterance(text);
@@ -58,12 +59,14 @@
 
     function playCorrectSound() {
       const audio = document.getElementById('correct-sound');
+      audio.volume = 1.0;
       audio.currentTime = 0;
       audio.play();
     }
 
     function playWrongSound() {
       const audio = document.getElementById('wrong-sound');
+      audio.volume = 1.0;
       audio.currentTime = 0;
       audio.play();
     }
@@ -75,6 +78,7 @@
     }
 
     function startGame() {
+      correctCount = 0;
       document.getElementById('start-screen').classList.add('hidden');
       document.getElementById('game').classList.remove('hidden');
       document.getElementById('message').textContent = '';
@@ -83,6 +87,8 @@
     }
 
     function loadQuestion() {
+      document.getElementById('options').classList.remove('hidden');
+
       currentWord = words[Math.floor(Math.random() * words.length)];
       speak(currentWord);
 
@@ -94,7 +100,6 @@
       choices = shuffle(choices);
 
       const container = document.getElementById('options');
-      container.classList.remove('hidden');
       container.innerHTML = '';
       choices.forEach(choice => {
         const btn = document.createElement('button');
@@ -116,25 +121,36 @@
         `;
 
         btn.onclick = () => {
-          // 隱藏互動
           document.getElementById('options').classList.add('hidden');
           document.getElementById('replay-btn').classList.add('hidden');
 
           if (choice === currentWord) {
+            correctCount++;
             playCorrectSound();
-            document.getElementById('message').textContent = "🎉 通關！";
+            document.getElementById('message').textContent = correctCount >= 2 ? "🎉 Pass!" : "✅ Correct!";
             document.getElementById('message').classList.remove("text-red-500");
             document.getElementById('message').classList.add("text-green-600");
 
-            setTimeout(() => {
-              stopSound('correct-sound');
-              document.getElementById('game').classList.add('hidden');
-              document.getElementById('start-screen').classList.remove('hidden');
-            }, 5000);
+            if (correctCount >= 2) {
+              setTimeout(() => {
+                stopSound('correct-sound');
+                document.getElementById('game').classList.add('hidden');
+                document.getElementById('start-screen').classList.remove('hidden');
+                correctCount = 0;
+              }, 5000);
+            } else {
+              setTimeout(() => {
+                stopSound('correct-sound');
+                document.getElementById('message').textContent = '';
+                document.getElementById('options').classList.remove('hidden');
+                document.getElementById('replay-btn').classList.remove('hidden');
+                loadQuestion();
+              }, 1500);
+            }
 
           } else {
             playWrongSound();
-            document.getElementById('message').textContent = "❌ 錯了！再接再厲";
+            document.getElementById('message').textContent = "❌ Wrong!";
             document.getElementById('message').classList.remove("text-green-600");
             document.getElementById('message').classList.add("text-red-500");
 
