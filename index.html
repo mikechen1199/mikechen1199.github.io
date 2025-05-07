@@ -57,11 +57,21 @@
     }
 
     function playCorrectSound() {
-      document.getElementById('correct-sound')?.play();
+      const audio = document.getElementById('correct-sound');
+      audio.currentTime = 0;
+      audio.play();
     }
 
     function playWrongSound() {
-      document.getElementById('wrong-sound')?.play();
+      const audio = document.getElementById('wrong-sound');
+      audio.currentTime = 0;
+      audio.play();
+    }
+
+    function stopSound(id) {
+      const audio = document.getElementById(id);
+      audio.pause();
+      audio.currentTime = 0;
     }
 
     function startGame() {
@@ -105,7 +115,7 @@
         `;
 
         btn.onclick = () => {
-          // 隱藏選項與重聽
+          // 隱藏互動
           document.getElementById('options').classList.add('hidden');
           document.getElementById('replay-btn').classList.add('hidden');
 
@@ -116,6 +126,7 @@
             document.getElementById('message').classList.add("text-green-600");
 
             setTimeout(() => {
+              stopSound('correct-sound');
               document.getElementById('game').classList.add('hidden');
               document.getElementById('start-screen').classList.remove('hidden');
             }, 5000);
@@ -127,6 +138,7 @@
             document.getElementById('message').classList.add("text-red-500");
 
             setTimeout(() => {
+              stopSound('wrong-sound');
               document.getElementById('message').textContent = '';
               document.getElementById('options').classList.remove('hidden');
               document.getElementById('replay-btn').classList.remove('hidden');
