@@ -10,9 +10,9 @@
 
   <!-- 開始畫面 -->
   <div id="start-screen" class="space-y-10">
-    <h1 class="text-4xl sm:text-6xl font-bold text-blue-700">猜單字小遊戲</h1>
+    <h1 class="text-4xl sm:text-6xl font-bold text-blue-700">Vocabulary Game</h1>
     <button id="start-btn" onclick="startGame()" class="bg-blue-500 text-white px-12 py-8 text-4xl rounded-full shadow hover:bg-blue-600 transition">
-      開始遊戲
+      Game Start!
     </button>
   </div>
 
@@ -20,12 +20,12 @@
   <div id="game" class="hidden w-full max-w-xl mx-auto p-6 space-y-8">
     <!-- 重聽按鈕 -->
     <button onclick="replay()" class="text-5xl bg-yellow-300 rounded-full px-6 py-4 shadow hover:bg-yellow-400 transition">
-      🔊 重聽
+      🔊
     </button>
 
     <!-- 選項按鈕 -->
     <div id="options" class="grid grid-cols-1 sm:grid-cols-3 gap-6 justify-center mt-6">
-      <!-- 選項按鈕將動態產生 -->
+      <!-- 選項會自動產生 -->
     </div>
 
     <!-- 結果訊息 -->
@@ -38,25 +38,6 @@
       "Elephant", "Fish", "Net", "Nose", "Pig",
       "Quilt", "Rabbit", "Sun", "Lion", "Monkey"
     ];
-
-    const emojiMap = {
-      "Apple": "🍎",
-      "Ant": "🐜",
-      "Bird": "🐦",
-      "Cat": "🐱",
-      "Dog": "🐶",
-      "Egg": "🥚",
-      "Elephant": "🐘",
-      "Fish": "🐟",
-      "Net": "🕸️",
-      "Nose": "👃",
-      "Pig": "🐷",
-      "Quilt": "🛏️",
-      "Rabbit": "🐰",
-      "Sun": "☀️",
-      "Lion": "🦁",
-      "Monkey": "🐵"
-    };
 
     let currentWord = null;
 
@@ -92,10 +73,15 @@
       const container = document.getElementById('options');
       container.innerHTML = '';
       choices.forEach(choice => {
+        const imgName = choice.toLowerCase();
+
         const btn = document.createElement('button');
-        const emoji = emojiMap[choice] || "❓";
         btn.innerHTML = `
-          <div class="text-5xl mb-2">${emoji}</div>
+          <img 
+            src="letter_image/${imgName}.png" 
+            alt="${choice}" 
+            class="w-24 h-24 sm:w-32 sm:h-32 object-contain mb-2"
+          >
           <div>${choice}</div>
         `;
         btn.className = `
@@ -103,11 +89,12 @@
           bg-white rounded-3xl
           px-6 py-8
           shadow hover:bg-blue-200 transition
-          w-full min-h-[8rem]
+          w-full min-h-[10rem]
           break-words
           whitespace-normal
           flex flex-col justify-center items-center
         `;
+
         btn.onclick = () => {
           if (choice === currentWord) {
             document.getElementById('message').textContent = "🎉 通關！";
@@ -124,6 +111,7 @@
             document.getElementById('start-screen').classList.remove('hidden');
           }, 1500);
         };
+
         container.appendChild(btn);
       });
     }
