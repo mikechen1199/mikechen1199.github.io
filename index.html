@@ -98,16 +98,24 @@
             document.getElementById('message').textContent = "🎉 通關！";
             document.getElementById('message').classList.remove("text-red-500");
             document.getElementById('message').classList.add("text-green-600");
+        
+            // 正確答題後：5 秒後回首頁
+            setTimeout(() => {
+              document.getElementById('game').classList.add('hidden');
+              document.getElementById('start-screen').classList.remove('hidden');
+            }, 5000);
+        
           } else {
             document.getElementById('message').textContent = "❌ 錯了！再接再厲";
             document.getElementById('message').classList.remove("text-green-600");
             document.getElementById('message').classList.add("text-red-500");
+        
+            // 答錯後：1.5 秒後自動進下一題
+            setTimeout(() => {
+              document.getElementById('message').textContent = '';
+              loadQuestion();
+            }, 1500);
           }
-
-          setTimeout(() => {
-            document.getElementById('game').classList.add('hidden');
-            document.getElementById('start-screen').classList.remove('hidden');
-          }, 1500);
         };
 
         container.appendChild(btn);
