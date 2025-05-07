@@ -1,378 +1,139 @@
 <!DOCTYPE html>
 <html lang="en">
-<!--[if IE 9]>
-<html class="ie9" lang="en">    <![endif]-->
-<!--[if IE 8]>
-<html class="ie8" lang="en">    <![endif]-->
 <head>
-   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name=viewport content="width=device-width, initial-scale=1">
-
-   <title>Chang-Yi (Mike) Chen | Home</title>
-
-   <meta name="description" content="Gridus vCard HTML Template is the professional responsive personal website template, based on the latest Bootstrap 3">
-   <meta name="keywords" content="html5, template, website, responsive, bootstrap">
-   <meta name="author" content="neuethemes">
-
-   <!-- Preloader -->
-   <link href="assets/custom/2.1.0/css/preloader.css" property='stylesheet' rel="stylesheet" type="text/css" media="screen"/>
-
-   <!-- CSS -->
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous" media="screen">
-   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" property='stylesheet' rel="stylesheet" type="text/css" media="screen"/>
-   <link href="assets/vendor/flaticons/flaticon.min.css?v=29022016" property='stylesheet' rel="stylesheet" type="text/css" media="screen"/>
-   <link href="assets/vendor/hover/css/hover-min.css?v=2.0.2" property='stylesheet' rel="stylesheet" type="text/css" media="screen"/>
-   <link href="assets/vendor/mfp/css/magnific-popup.min.css?v=1.1.0" property='stylesheet' rel="stylesheet" type="text/css" media="screen"/>
-   <link href="assets/vendor/owl-carousel/assets/owl.carousel.min.css?v=2.1.0" property='stylesheet' rel="stylesheet" type="text/css" media="screen"/>
-   <link href="mike.css" property='stylesheet' rel="stylesheet" type="text/css"/>
-
-   <!-- Custom styles -->
-   <link href="assets/custom/2.1.0/css/style.css" property='stylesheet' rel="stylesheet" type="text/css" media="screen"/>
-   <link href="assets/custom/2.1.0/css/layouts/michael.css" property='stylesheet' rel="stylesheet" type="text/css" media="screen"/>
-   <link href="assets/custom/2.1.0/css/colors/greyscale.css" id="color-styles" property='stylesheet' rel="stylesheet" type="text/css" media="screen"/>
+  <meta charset="UTF-8">
+  <title>猜單字小遊戲</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
+<body class="bg-blue-50 text-center min-h-screen flex flex-col items-center justify-center text-2xl sm:text-3xl">
 
-<body id="michael" class="boxed">
+  <!-- 開始畫面 -->
+  <div id="start-screen" class="space-y-10">
+    <h1 class="text-4xl sm:text-6xl font-bold text-blue-700">猜單字小遊戲</h1>
+    <button id="start-btn" onclick="startGame()" class="bg-blue-500 text-white px-12 py-8 text-4xl rounded-full shadow hover:bg-blue-600 transition">
+      開始遊戲
+    </button>
+  </div>
 
-<!--Pre-Loader-->
-<div id="preloader"></div>
+  <!-- 遊戲區 -->
+  <div id="game" class="hidden w-full max-w-xl mx-auto p-6 space-y-8">
+    <!-- 重聽按鈕 -->
+    <button onclick="replay()" class="text-5xl bg-yellow-300 rounded-full px-6 py-4 shadow hover:bg-yellow-400 transition">
+      🔊 重聽
+    </button>
 
-<header>
-   <section id="top-navigation" class="container-fluid nopadding">
-      <div class="row nopadding ident ui-bg-color01">
-         <!-- Carousel -->
-         <section id="owl-carousel" data-section="owl-carousel"
-                  data-animation-origin="bottom"
-                  data-animation-duration="500"
-                  data-animation-delay="400"
-                  data-animation-distance="100px">
-            <div class="owl-carousel owl-theme">
+    <!-- 選項按鈕 -->
+    <div id="options" class="grid grid-cols-1 sm:grid-cols-3 gap-6 justify-center mt-6">
+      <!-- 選項按鈕將動態產生 -->
+    </div>
 
-               <div class="item">
-                  <div class="feat-post left">
-                     <div class="feat-wrapper">
-                        <div class="feat-metas">
-                           <p class="color10">Welcome to the</p>
-                           <h3 class="font-accident-one-normal text-nowrap color01">Chang-Yi (Mike) Chen</h3>
-                           <hr>
-                           <p class="color10">Resume</p>
-                           <div class="morelink"><a href="#more" class="red">read more</a></div>
-                        </div>
-                     </div>
-                  </div>
-                  <img src="image/01.jpg" class="img-responsive" alt="01">
-               </div>
+    <!-- 結果訊息 -->
+    <div id="message" class="text-5xl font-bold mt-6 min-h-[3rem]"></div>
+  </div>
 
+  <script>
+    const words = [
+      "Apple", "Ant", "Bird", "Cat", "Dog", "Egg",
+      "Elephant", "Fish", "Net", "Nose", "Pig",
+      "Quilt", "Rabbit", "Sun", "Lion", "Monkey"
+    ];
 
+    const emojiMap = {
+      "Apple": "🍎",
+      "Ant": "🐜",
+      "Bird": "🐦",
+      "Cat": "🐱",
+      "Dog": "🐶",
+      "Egg": "🥚",
+      "Elephant": "🐘",
+      "Fish": "🐟",
+      "Net": "🕸️",
+      "Nose": "👃",
+      "Pig": "🐷",
+      "Quilt": "🛏️",
+      "Rabbit": "🐰",
+      "Sun": "☀️",
+      "Lion": "🦁",
+      "Monkey": "🐵"
+    };
 
-            </div>
-            <div class="e-divider-4"></div>
-         </section>
-         <!-- /Carousel -->
-         <div class="col-md-12 vc-name nopadding" id="more">
+    let currentWord = null;
 
-            <ul id="nav" class="row nopadding cd-side-navigation">
-               <li class="col-xs-4 col-sm-4 nopadding menuitem ui-menu-color01" data-animation-duration="1000" data-animation-delay="100">
-                  <a href="index.html" class="hvr-sweep-to-bottom"><i class="flaticon-insignia"></i><span>home</span></a>
-               </li>
-               <li class="col-xs-4 col-sm-4 nopadding menuitem ui-menu-color02" data-animation-duration="1000" data-animation-delay="300">
-                  <a href="resume.html" class="hvr-sweep-to-bottom"><i class="flaticon-graduation61"></i><span>resume</span></a>
-               </li>
-               <!--
-               <li class="col-xs-3 col-sm-3 nopadding menuitem ui-menu-color03" data-animation-duration="1000" data-animation-delay="500">
-                  <a href="project.html" class="hvr-sweep-to-bottom"><i class="flaticon-book-bag2"></i><span>project</span></a>
-               </li>
-               -->
-               <li class="col-xs-4 col-sm-4 nopadding menuitem ui-menu-color04" data-animation-duration="1000" data-animation-delay="700">
-                  <a href="contacts.html" class="hvr-sweep-to-bottom"><i class="flaticon-placeholders4"></i><span>contacts</span></a>
-               </li>
-            </ul>
+    function speak(text) {
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = "en-US";
+      speechSynthesis.cancel();
+      speechSynthesis.speak(utter);
+    }
 
-            <!-- /Main Navigation -->
+    function shuffle(array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
 
-         </div>
-      </div>
-   </section>
-</header>
+    function startGame() {
+      document.getElementById('start-screen').classList.add('hidden');
+      document.getElementById('game').classList.remove('hidden');
+      document.getElementById('message').textContent = '';
+      loadQuestion();
+    }
 
-<!--<div class="dividewhite2"></div>-->
+    function loadQuestion() {
+      currentWord = words[Math.floor(Math.random() * words.length)];
+      speak(currentWord);
 
-<!-- Container -->
-<div class="content-wrap">
+      let choices = [currentWord];
+      while (choices.length < 3) {
+        const choice = words[Math.floor(Math.random() * words.length)];
+        if (!choices.includes(choice)) choices.push(choice);
+      }
+      choices = shuffle(choices);
 
-   <section id="details" class="container-fluid ui-block-color01 dark" data-section="home"
-            data-animation-origin="left"
-            data-animation-duration="300"
-            data-animation-delay="700"
-            data-animation-distance="200px">
+      const container = document.getElementById('options');
+      container.innerHTML = '';
+      choices.forEach(choice => {
+        const btn = document.createElement('button');
+        const emoji = emojiMap[choice] || "❓";
+        btn.innerHTML = `
+          <div class="text-5xl mb-2">${emoji}</div>
+          <div>${choice}</div>
+        `;
+        btn.className = `
+          text-3xl sm:text-4xl
+          bg-white rounded-3xl
+          px-6 py-8
+          shadow hover:bg-blue-200 transition
+          w-full min-h-[8rem]
+          break-words
+          whitespace-normal
+          flex flex-col justify-center items-center
+        `;
+        btn.onclick = () => {
+          if (choice === currentWord) {
+            document.getElementById('message').textContent = "🎉 通關！";
+            document.getElementById('message').classList.remove("text-red-500");
+            document.getElementById('message').classList.add("text-green-600");
+          } else {
+            document.getElementById('message').textContent = "❌ 錯了！再接再厲";
+            document.getElementById('message').classList.remove("text-green-600");
+            document.getElementById('message').classList.add("text-red-500");
+          }
 
-      <!-- Personal Section -->
-      <div class="row">
+          setTimeout(() => {
+            document.getElementById('game').classList.add('hidden');
+            document.getElementById('start-screen').classList.remove('hidden');
+          }, 1500);
+        };
+        container.appendChild(btn);
+      });
+    }
 
-         <div class="col-md-12 nopadding">
-            <div class="padding-50">
-               <div class="row row-no-padding">
-                  <div class="col-md-12 nopadding text-center">
-                     <div class="dividewhite4"></div>
-                     <h2 class="font-accident-two-bold uppercase title">Hello!</h2>
-                     <div class="">
-                        <h5 class="font-accident-one-bold uppercase subtitle">I am Chang-Yi (Mike). Let's see who I am.</h5>
-                        <div class="dividewhite6"></div>
-                     </div>
-                  </div>
-               </div>
-               <div class="divider-dynamic"></div>
-               <div class="row nopadding">
-                  <div class="col-md-3 infoblock text-center"
-                       data-animation-origin="top"
-                       data-animation-duration="400"
-                       data-animation-delay="500"
-                       data-animation-distance="50px">
-                     <div class="row">
-                        <div class="col-md-12"><i class="flaticon-insignia"></i></div>
-                        <div class="col-md-12">
-                           <div class="dividewhite1"></div>
-                           <h5 class="font-accident-one-bold uppercase">Software Engineer</h5>
-                           <p class="small">
-                              I want to be a software engineer who can make cool things and change the world!
-                           </p>
-                        </div>
-                     </div>
-                     <div class="dividewhite4"></div>
-                  </div>
-                  <div class="col-md-3 infoblock text-center"
-                       data-animation-origin="top"
-                       data-animation-duration="400"
-                       data-animation-delay="700"
-                       data-animation-distance="50px">
-                     <div class="row">
-                        <div class="col-md-12"><i class="flaticon-graduation61"></i></div>
-                        <div class="col-md-12">
-                           <div class="dividewhite1"></div>
-                           <h5 class="font-accident-one-bold uppercase">Major</h5>
-                           <p class="small">
-                              Graduated from National Taiwan University, I major in Electraical Engineering and get the master degree.
-                           </p>
-                        </div>
-                     </div>
-                     <div class="dividewhite4"></div>
-                  </div>
-                  <div class="col-md-3 infoblock text-center"
-                       data-animation-origin="top"
-                       data-animation-duration="400"
-                       data-animation-delay="900"
-                       data-animation-distance="50px">
-                     <div class="row">
-                        <div class="col-md-12"><i class="flaticon-identification28"></i></div>
-                        <div class="col-md-12">
-                           <div class="dividewhite1"></div>
-                           <h5 class="font-accident-one-bold uppercase">Skills</h5>
-                           <p class="small">
-                              Familiar with C/C++, Java, and Python. Experience in socket programming, AI development, Android App designing.
-                           </p>
-                        </div>
-                     </div>
-                     <div class="dividewhite4"></div>
-                  </div>
-                  <div class="col-md-3 infoblock text-center"
-                       data-animation-origin="top"
-                       data-animation-duration="400"
-                       data-animation-delay="1100"
-                       data-animation-distance="50px">
-                     <div class="row">
-                        <div class="col-md-12"><i class="flaticon-photo246"></i></div>
-                        <div class="col-md-12">
-                           <div class="dividewhite1"></div>
-                           <h5 class="font-accident-one-bold uppercase">Hobby</h5>
-                           <p class="small">
-                              Photographing, singing, and making some cool project like Raspberry Pi Car or Live Streaming Server.
-                           </p>
-                        </div>
-                     </div>
-                     <div class="dividewhite4"></div>
-                  </div>
-               </div>
-               <div class="dividewhite2"></div>
-            </div>
-         </div>
-
-      </div>
-      <!-- /Personal Section -->
-
-   </section>
-
-   <section id="photos" class="container-fluid">
-
-      <div class="row flex-row">
-         <div class="col-md-6 flex-column light nopadding bg-color01 flex-col"
-              data-animation-origin="left"
-              data-animation-duration="500"
-              data-animation-delay="800"
-              data-animation-distance="200px">
-
-            <div class="flex-panel">
-               <img src="image/02.jpg" class="img-responsive">
-            </div>
-
-         </div>
-         <div class="col-md-6 flex-column light nopadding bg-color01 flex-col photo-caption-wrap"
-              data-animation-origin="right"
-              data-animation-duration="500"
-              data-animation-delay="800"
-              data-animation-distance="200px">
-
-            <div class="photo-caption flex-panel padding-50 text-center owl-carousel" data-section="owl-carousel">
-               <div class="item">
-                  <h3 class="font-accident-one-normal">Educational Services</h3>
-                  <h5 class="font-accident-one-bold title hovercolor uppercase">08/2016 - Now (until 07/2017)</h5>
-                  <p class="small">
-                    I am now enrolled in Substitute Service in Taiwan. My service type is Educational Substitute Services in Jinshan Elementary School, New Taipei City.
-                  </p>
-                  <div class="dividewhite2"></div>
-                  <a class="photo-more"></a>
-               </div>
-               <div class="item">
-                  <h3 class="font-accident-one-normal">Intern of Software Engineer</h3>
-                  <h5 class="font-accident-one-bold title hovercolor uppercase">07/2015 – 09/2015</h5>
-                  <p class="small">
-                     I was in summer intern in 2015, working on the project about an E-learning system. My job was to design the backend system with MongoDB with PHP.
-                  </p>
-                  <div class="dividewhite2"></div>
-                  <a class="photo-more"></a>
-               </div>
-               <div class="item">
-                  <h3 class="font-accident-one-normal">Network Admin</h3>
-                  <h5 class="font-accident-one-bold title hovercolor uppercase">09/2014 – 07/2016</h5>
-                  <p class="small">
-                     I was the network admin in our lab during my master degree. My job was to maintain the lab’s website and manage the router and Wi-Fi environment.
-                  </p>
-                  <div class="dividewhite2"></div>
-                  <a class="photo-more"></a>
-               </div>
-               <div class="item">
-                  <h3 class="font-accident-one-normal">Assistant of Network Admin</h3>
-                  <h5 class="font-accident-one-bold title hovercolor uppercase">03/2014 – 02/2015</h5>
-                  <p class="small">
-                     I was the assistant of network admin at EE Dept., NTU. My job was to help fixing network problem and design an application for the department.
-                  </p>
-                  <div class="dividewhite2"></div>
-                  <a class="photo-more"></a>
-               </div>
-            </div>
-
-         </div>
-      </div>
-
-      <div class="row flex-row">
-         <div class="col-md-6 flex-column light nopadding bg-color01 flex-col photo-caption-wrap"
-              data-animation-origin="left"
-              data-animation-duration="500"
-              data-animation-delay="900"
-              data-animation-distance="200px">
-
-            <div class="photo-caption flex-panel padding-50 text-center">
-               <h3 class="font-accident-one-normal">Research Experience</h3>
-               <h5 class="font-accident-one-bold title hovercolor uppercase">Community Evolution Detection and Prediction</h5>
-               <p class="small">
-                  My research during my master degree is Social Network Analysis. The topic is about tracking communities in social network, finding their evolution and predicting their evolution.
-               </p>
-               <div class="dividewhite2"></div>
-               <a class="photo-more"></a>
-            </div>
-
-         </div>
-         <div class="col-md-6 flex-column light nopadding bg-color01 flex-col"
-              data-animation-origin="right"
-              data-animation-duration="500"
-              data-animation-delay="900"
-              data-animation-distance="200px">
-
-            <div class="flex-panel">
-               <img src="image/03.jpg" class="img-responsive">
-            </div>
-
-         </div>
-      </div>
-
-   </section>
-
-   
-
-
-
-
-</div>
-
-<footer class="padding-50 dark ui-bg-color01"
-        data-animation-origin="top"
-        data-animation-duration="500"
-        data-animation-delay="800"
-        data-animation-distance="50px">
-   <div class="container-fluid nopadding">
-      <div class="row">
-         <div class="col-sm-4">
-            <h5 class="font-accident-two-normal uppercase">Chang-Yi (Mike) Chen Resume</h5>
-            <p class="inline-block">
-               The resume was made with <a href="https://wrapbootstrap.com/theme/gridus-vcard-cv-resume-portfolio-WB0RK211T" style="color: gray;">Gridushas</a>, a bootstrap template suitable for creating CV/Resume/vCard.
-            </p>
-            <div class="divider-dynamic"></div>
-         </div>
-         <div class="col-sm-4 cv-link">
-            <h5 class="font-accident-two-normal uppercase">Download cv</h5>
-            <div class="dividewhite1"></div>
-            <a href="Chang_Yi_CV.pdf"><i class="fa fa-long-arrow-down" aria-hidden="true"></i>English</a>
-            <a href="Chang_Yi_Resume_Chinese.pdf"><i class="fa fa-long-arrow-down" aria-hidden="true"></i>Chinese</a>
-            <p class="inline-block">
-               The CV is in .pdf format. Use the Adobe Reader to open it.
-            </p>
-            <div class="divider-dynamic"></div>
-         </div>
-         <div class="col-sm-4">
-            <h5 class="font-accident-two-normal uppercase">Follow me</h5>
-            <div class="follow">
-               <ul class="list-inline social">
-                  <li><a target="_blank" href="https://www.facebook.com/profile.php?id=100001333325749" class="rst-icon-facebook"><i class="fa fa-facebook"></i></a></li>
-                  <li><a target="_blank" href="https://twitter.com/b99901026" class="rst-icon-twitter"><i class="fa fa-twitter"></i></a></li>
-                  <li><a target="_blank" href="https://www.flickr.com/photos/151140435@N04/" class="rst-icon-flickr"><i class="fa fa-flickr"></i></a></li>
-               </ul>
-            </div>
-            <div class="divider-dynamic"></div>
-         </div>
-      </div>
-      <div class="dividewhite1"></div>
-      <div class="row">
-         <div class="col-md-12 copyrights">
-            <p>© 2017 Chang-Yi (Mike) Chen.</p>
-         </div>
-      </div>
-   </div>
-</footer>
-
-<!-- Back to Top -->
-<div id="back-top"></div>
-<!-- /Back to Top -->
-
-<!-- JS -->
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-<script src="https://npmcdn.com/imagesloaded@4.1/imagesloaded.pkgd.min.js"></script>
-<script src="https://unpkg.com/isotope-layout@3.0/dist/isotope.pkgd.min.js"></script>
-<script src="https://unpkg.com/scrollreveal@3.3.2/dist/scrollreveal.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/velocity/1.2.3/velocity.min.js"></script>
-
-<script src="assets/vendor/mfp/js/jquery.magnific-popup.min.js?v=1.1.0" type="text/javascript"></script>
-<script src="assets/vendor/progressbar/progressbar.min.js?v=1.0.1" type="text/javascript"></script>
-
-<script src="assets/vendor/anicounter/jquery.counterup.min.js?v=1.0" type="text/javascript"></script>
-<script src="assets/vendor/pjax/jquery.pjax.min.js?v=1.9.6" type="text/javascript"></script>
-<script src="assets/vendor/owl-carousel/owl.carousel.min.js?v=2.1.0" type="text/javascript"></script>
-<script src="assets/vendor/headlines/headlines.min.js?v=1.0" type="text/javascript"></script>
-
-<!-- Custom scripts -->
-<script src="assets/custom/2.1.0/js/animation.js" type="text/javascript"></script>
-<script src="assets/custom/2.1.0/js/custom.js" type="text/javascript"></script>
+    function replay() {
+      if (currentWord) {
+        speak(currentWord);
+      }
+    }
+  </script>
 
 </body>
-
 </html>
